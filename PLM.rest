@@ -1,0 +1,31 @@
+POST https://brandix.centricsoftware.com/csi-requesthandler/api/v2/session
+content-type: application/json
+
+{
+    "username":"DevonP",
+    "password":"DP@942470045v"
+}
+
+
+//POST https://brandix-test.centricsoftware.com/csi-requesthandler/api/v2/styles/0001
+//content-type: application/json
+
+//{
+    //"username":"API_User_BFF_SampleRequest",
+    //"password":"test@2021"
+//}
+
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?node_name=206706&active=true&bx_style_status=Confirmed
+
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?id=C113100
+
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/seasons/C62406
+
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_boms/C3304576
+
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles/C3175734/data_sheets/apparel_boms
+
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/materials/C3304576
+
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/material_plan_placements/C3175734
+

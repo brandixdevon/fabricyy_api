@@ -3,9 +3,11 @@ const express = require('express');
 
 const login =require('./login');
 const fabricyy =require('./fabricyy');
+const plmaccess =require('./plmdata');
 
 routes.use('/login',login);
 routes.use('/fabricyy',fabricyy);
+routes.use('/plmaccess',plmaccess);
 
 routes.use(express.json());
 
