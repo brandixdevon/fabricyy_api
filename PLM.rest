@@ -3,7 +3,7 @@ content-type: application/json
 
 {
     "username":"DevonP",
-    "password":"DP@942470045v"
+    "password":"Dare2EnterIn@8"
 }
 
 
@@ -17,7 +17,7 @@ content-type: application/json
 
 //GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?node_name=206706&active=true&bx_style_status=Confirmed
 
-//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?id=C113100
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?id=1663516
 
 //GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/seasons/C62406
 
@@ -29,3 +29,24 @@ content-type: application/json
 
 //GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/material_plan_placements/C3175734
 
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/C18291096
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_boms/C18291096
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/C18291096
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/C18291125
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/materials/C544491
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/colorways/C18291044
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/color_materials/C16149999
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/C18291096/items/part_materials?
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_items/C15819623
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/materials/C544491
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/material_types/C2308

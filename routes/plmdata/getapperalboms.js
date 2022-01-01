@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
     var styleseasonid =  req.body.seasonid;
     var usertoken =  req.body.token;
 
-    axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles/${styleseasonid}/data_sheets/apparel_boms`, {
+    axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles/${styleseasonid}/data_sheets/apparel_boms?state=APPROVED`, {
         headers: {
             Cookie:`${usertoken}`
         }

@@ -4,10 +4,12 @@ const express = require('express');
 const login =require('./login');
 const fabricyy =require('./fabricyy');
 const plmaccess =require('./plmdata');
+const masterdata =require('./masterdata');
 
 routes.use('/login',login);
 routes.use('/fabricyy',fabricyy);
 routes.use('/plmaccess',plmaccess);
+routes.use('/masterdata',masterdata);
 
 routes.use(express.json());
 

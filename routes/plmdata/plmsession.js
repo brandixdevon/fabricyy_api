@@ -4,7 +4,7 @@ module.exports = (req, res) => {
 
     axios.post('https://brandix.centricsoftware.com/csi-requesthandler/api/v2/session', {
         username:'DevonP',
-        password:'DP@942470045v'
+        password:'Dare2EnterIn@8'
         })
         .then(response => {
             res.status(200).json({Type: 'SUCCESS', Token : response.data.token})
