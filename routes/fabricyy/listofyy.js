@@ -35,9 +35,10 @@ module.exports = async (req, res) => {
   }
   else
   {
-    sqlqry = `SELECT fabricyy_master.*,sys_customer.cus_name,sys_factory.fac_name FROM fabricyy_master 
+    sqlqry = `SELECT fabricyy_master.*,fabricyy_details.*,sys_customer.cus_name,sys_factory.fac_name FROM fabricyy_master 
     INNER JOIN sys_customer ON fabricyy_master.cus_id = sys_customer.cus_id 
-    INNER JOIN sys_factory ON fabricyy_master.fac_id = sys_factory.fac_id 
+    INNER JOIN sys_factory ON fabricyy_master.fac_id = sys_factory.fac_id
+	LEFT JOIN fabricyy_details ON fabricyy_master.fabyy_id = fabricyy_details.fabyy_id 
     WHERE fabricyy_master.fabyy_status != 'Delete' AND fabricyy_master.username = '${var_username}' AND fabricyy_master.fabyy_id = '${var_typeid}';`;
   }
 

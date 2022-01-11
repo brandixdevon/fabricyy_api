@@ -1,8 +1,11 @@
 const { pool } = require('../dbconfig');
+const moment = require('moment');
 
 module.exports = async (req, res) => {
-  
-  var sqlqry =`SELECT fac_id, fac_name FROM sys_factory WHERE fac_active='true';`;
+
+  const var_itemid = req.params.itemid;
+
+  var sqlqry =`SELECT * FROM olr_items WHERE olr_item_id='${var_itemid}';`;
 
   pool.query(sqlqry, (error, results) => {
     if (error) {
@@ -15,5 +18,4 @@ module.exports = async (req, res) => {
     }
 
   })
-
-};
+}

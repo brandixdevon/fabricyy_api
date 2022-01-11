@@ -29,8 +29,8 @@ module.exports = async (req, res) => {
   const var_factory = req.body.factory;
   const var_crdate = moment().format("YYYY-MM-DD HH:mm:ss");
 
-  var sqlqry = `INSERT INTO fabricyy_master(username, cus_id, fac_id, cus_sty_no, m3_sty_no, old_sty_no, fabyy_status, create_ts) 
-  VALUES ('${var_username}','${var_customer}','${var_factory}','${var_cus_style_no}','${var_m3_style_no}','${var_old_style_no}','Edit','${var_crdate}') RETURNING fabyy_id;`;
+  var sqlqry = `INSERT INTO fabricyy_master(username, cus_id, fac_id, cus_sty_no, m3_sty_no, old_sty_no, fabyy_status, create_ts,olr_upload,get_plmbom) 
+  VALUES ('${var_username}','${var_customer}','${var_factory}','${var_cus_style_no}','${var_m3_style_no}','${var_old_style_no}','Edit','${var_crdate}','false','false') RETURNING fabyy_id;`;
 
   pool.query(sqlqry, (error, results) => {
     if (error) {
@@ -38,7 +38,7 @@ module.exports = async (req, res) => {
       return;
     }
     else {
-      res.status(200).json({ Type: "SUCCESS", Msg: "New Task Added Successfully!", Data: results.rows })
+      res.status(200).json({ Type: "SUCCESS", Msg: "New Fabric YY Create Successfully!", Data: results.rows })
       return;
     }
 

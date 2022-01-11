@@ -25,39 +25,42 @@ module.exports = async (req, res) => {
   const var_itemset = req.body.itemset;
   const var_token = req.body.token;
 
-  var sqlqry_delete = `DELETE FROM plm_items WHERE fabyy_id='${var_fabricyyid}';`;
-  pool.query(sqlqry_delete);
+  let xc = await deleteRows(`DELETE FROM plm_items WHERE fabyy_id='${var_fabricyyid}';`);
 
-  Promise.all( 
-      
-    await var_itemset.map(async (x) => {
-         
-        await x.color_way_colors.map(async (y) => {
-
-            var nameofmatcolor = await getcolorname(y);
-
-                if(nameofmatcolor.node_name !== "")
-                {
-                    var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, item_comment)
-                    VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '');`;
+  let prom = await Promise.all( 
+        await var_itemset.map(async (x) => {
+            
+            return Promise.all(
+            await x.color_way_colors.map(async (y) => {
                 
-                    pool.query(sqlqry);
-                }
+                var nameofmatcolor = await getcolorname(y);
+
+                new Promise(async function(){
+                
+
+                    if(nameofmatcolor.node_name !== "")
+                    {
+                        var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, item_comment)
+                        VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '');`;
+                        
+                        await pool.query(sqlqry);
+                        
+                    }
+
+                })
           
             
-            })
+            }))
     
-    })
-    
+        })
     ).then(function()
     {
-        res.status(200).json({Type: 'SUCCESS', Message : "Item List Successfully Added."})
+        res.status(200).json({ Type: "SUCCESS", Msg: "Item List Successfully Added."})
         return;
     })
 
     async function getcolorname(val_color)
     {
-
         var letterNumber = /^[0-9a-zA-Z]+$/;
 
             if(val_color.match(letterNumber))
@@ -84,5 +87,20 @@ module.exports = async (req, res) => {
         
     }
 
+    async function deleteRows(sqlqry_delete)
+    {
+        pool.query(sqlqry_delete, (error, results) => {
+            if (error) {
+              
+              return false;
+            }
+            else {
+             
+              return true;
+            }
+        
+          })
+    }
 
+    
 };

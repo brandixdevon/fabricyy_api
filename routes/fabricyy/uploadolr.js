@@ -26,10 +26,10 @@ module.exports = async (req, res) => {
 
   try
   {
-    pool.query(`DELETE FROM olr_data WHERE fabyy_id='${var_fabyyid}';`);
-
-    var_olrdataset.map((items => {
-
+    await pool.query(`DELETE FROM olr_data WHERE fabyy_id='${var_fabyyid}';`);
+    await Promise.all(
+      await var_olrdataset.map(async (items) => {
+        
         var CUSTNAME = String(items.CUSTNAME).replace(/'/g, "''");
         var MASTSTYLEDESC = String(items.MASTSTYLEDESC).replace(/'/g, "''");
         var CUSTSTYLE = String(items.CUSTSTYLE).replace(/'/g, "''");
@@ -41,12 +41,17 @@ module.exports = async (req, res) => {
 
         var sql_qry = `INSERT INTO olr_data(fabyy_id, custname, maststyledesc, custstyle, custstyledesc, mastcolordesc, custsizedesc, orderqty, season) VALUES('${var_fabyyid}', '${CUSTNAME}', '${MASTSTYLEDESC}', '${CUSTSTYLE}', '${CUSTSTYLEDESC}', '${MASTCOLORDESC}', '${CUSTSIZEDESC}', '${ORDERQTY}', '${SEASON}');`;
 
-        pool.query(sql_qry);
+        await pool.query(sql_qry);
 
-    }))
- 
-    res.status(200).json({ Type: "SUCCESS", Msg: "OLR List Added Successfully !"})
-    return;
+      })
+
+    ).then(function()
+    {
+      res.status(200).json({ Type: "SUCCESS", Msg: "OLR List Added Successfully !"})
+      return;
+    })
+
+    
   }
   catch (err)
   {
