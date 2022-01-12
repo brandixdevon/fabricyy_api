@@ -28,8 +28,9 @@ module.exports = async (req, res) => {
                         if(resp.status === 200){
                             
                             var nameofitem = await getitemname(resp.data.actual);
-                            var nameofsupplier = await getsuppliername(resp.data.bom_line_quote);
+                            var dataofsupplier = await getsupplierdata(resp.data.bom_line_quote);
                             var nameofmattype = await getmaterialtype(nameofitem.product_type);
+                            var minimumcuttablewidth = await getcuttablewidth(dataofsupplier.latest_revision)
                             
                             if(nameofmattype.node_name === "Fabric")
                             {
@@ -39,10 +40,10 @@ module.exports = async (req, res) => {
                                     color_way_type:resp.data.bx_colorway_type,
                                     color_way_colors:resp.data.colorways_color,
                                     garment_way:resp.data.bx_garment_way,
-                                    cuttable_width:0,
+                                    cuttable_width:minimumcuttablewidth.cw,
                                     item_name:nameofitem.node_name,
                                     description:nameofitem.description,
-                                    supplier:nameofsupplier.node_name,
+                                    supplier:dataofsupplier.node_name,
                                     material_type:nameofmattype.node_name,
                                 });
                             }
@@ -90,7 +91,7 @@ module.exports = async (req, res) => {
                 
             }
 
-            async function getsuppliername(val_supplier)
+            async function getsupplierdata(val_supplier)
             {
                 var letterNumber = /^[0-9a-zA-Z]+$/;
 
@@ -104,16 +105,16 @@ module.exports = async (req, res) => {
                             
                             if(resp_2.status === 200)
                             {
-                                return ({node_name: resp_2.data.node_name});
+                                return ({node_name: resp_2.data.node_name, latest_revision: resp_2.data.latest_revision});
                             }
                             else
                             {
-                                return ({node_name: ''});
+                                return ({node_name: '', latest_revision:''});
                             }
                     }
                     else
                     {
-                        return ({node_name: ''});
+                        return ({node_name: '', latest_revision:''});
                     }
                 
 
@@ -143,6 +144,35 @@ module.exports = async (req, res) => {
                     else
                     {
                         return ({node_name: ''});
+                    }
+                
+
+            }
+
+            async function getcuttablewidth(val_supp_item_rev)
+            {
+                var letterNumber = /^[0-9a-zA-Z]+$/;
+
+                    if(val_supp_item_rev.match(letterNumber) && val_supp_item_rev !== '')
+                    {
+                        let resp_3 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_item_revisions/${val_supp_item_rev}`, {
+                            headers: {
+                                Cookie:`${usertoken}`
+                            }
+                            });
+                            
+                            if(resp_3.status === 200)
+                            {
+                                return ({cw: resp_3.data.bx_minimum_cuttable_width});
+                            }
+                            else
+                            {
+                                return ({cw: ''});
+                            }
+                    }
+                    else
+                    {
+                        return ({cw: ''});
                     }
                 
 

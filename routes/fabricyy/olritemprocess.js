@@ -13,6 +13,8 @@ module.exports = async (req, res) => {
 
   var result_ins_olrsize = await insertRows(`INSERT INTO olr_sizeset(fabyy_id, sizename) SELECT fabyy_id,custsizedesc as sizename FROM olr_data WHERE fabyy_id='${var_fabyyid}' GROUP BY custsizedesc,fabyy_id ORDER BY custsizedesc;`)
   
+  var result_update_yymaster = await insertRows(`UPDATE fabricyy_master SET yy_desc=subtable.maststyledesc,yy_item=subtable.custstyledesc,yy_season=subtable.season FROM (SELECT maststyledesc,custstyledesc,season,fabyy_id FROM olr_data WHERE fabyy_id ='${var_fabyyid}' LIMIT 1) AS subtable WHERE fabricyy_master.fabyy_id =subtable.fabyy_id;`);
+
   res.status(200).json({ Type: "SUCCESS", Msg: "Item List Processing Successfully."})
   return;
 

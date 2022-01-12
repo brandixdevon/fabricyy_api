@@ -45,7 +45,7 @@ GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/color_material
 
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/C18291096/items/part_materials?
 
-GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_items/C15819623
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_items/C10515128
 
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/materials/C544491
 
@@ -58,3 +58,13 @@ GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?node_na
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/seasons/C775881
 
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles/C18290833/data_sheets/apparel_boms?state=APPROVED
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/seasons/C15454801
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_boms/C18290906
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/seasons/C18290833
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/C18291096
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_item_revisions/C14077138
