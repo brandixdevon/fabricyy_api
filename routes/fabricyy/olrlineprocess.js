@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
   var result_del_olritems = await deleteRows(`DELETE FROM olr_items WHERE fabyy_id='${var_fabyyid}';`);
 
-  var result_get_olrcolor = await selectFrom(`SELECT colorname,flex FROM olr_colorset WHERE fabyy_id='${var_fabyyid}' ORDER BY colorname;`);
+  var result_get_olrcolor = await selectFrom(`SELECT colorname,flex,vpono FROM olr_colorset WHERE fabyy_id='${var_fabyyid}' ORDER BY colorname,vpono;`);
 
   var result_get_olrsizes = await selectFrom(`SELECT sizename FROM olr_sizeset WHERE fabyy_id='${var_fabyyid}' ORDER BY sizename;`);
 
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 
             await result_get_olrcolor.Data.map(async (x) => 
             {
-                var insertrow = await insertRows(`INSERT INTO olr_items(fabyy_id,color, flex, garmentway, prod_plant) VALUES ('${var_fabyyid}','${x.colorname}','${x.flex}','','');`);
+                var insertrow = await insertRows(`INSERT INTO olr_items(fabyy_id,color, flex,vpono, garmentway, prod_plant) VALUES ('${var_fabyyid}','${x.colorname}','${x.flex}','${x.vpono}','','');`);
             
                 if(insertrow.Type === "SUCCESS")
                 {
@@ -31,7 +31,7 @@ module.exports = async (req, res) => {
                         return Promise.all(await result_get_olrsizes.Data.map(async (y) =>  
                         {
                             i = i+1;
-                            var qry_update = `UPDATE olr_items SET s${i}_name='${y.sizename}', s${i}_qty=temptable.orderqty FROM (SELECT COALESCE(SUM(orderqty),0) as orderqty FROM olr_data WHERE fabyy_id='${var_fabyyid}' AND mastcolordesc='${x.colorname}' AND custsizedesc='${y.sizename}') AS temptable WHERE fabyy_id='${var_fabyyid}' AND color='${x.colorname}';`
+                            var qry_update = `UPDATE olr_items SET s${i}_name='${y.sizename}', s${i}_qty=temptable.orderqty FROM (SELECT COALESCE(SUM(orderqty),0) as orderqty FROM olr_data WHERE fabyy_id='${var_fabyyid}' AND mastcolordesc='${x.colorname}' AND custsizedesc='${y.sizename}' AND vpono='${x.vpono}') AS temptable WHERE fabyy_id='${var_fabyyid}' AND color='${x.colorname}' AND vpono='${x.vpono}';`
                         
                             var result_update_olritems = await insertRows(qry_update);
                         }))
@@ -67,7 +67,7 @@ module.exports = async (req, res) => {
 
     async function insertRows(sqlqry_insert){
         try {
-            
+           
           const res = await pool.query(sqlqry_insert);
           return ({Type:"SUCCESS" });
         } catch (err) {

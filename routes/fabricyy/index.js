@@ -32,6 +32,8 @@ const updatesizeitemdata = require('./updatesizeitemdata');
 
 const updateyyplmdata = require('./updateyyplmdata');
 
+const getplmcolorways = require('./getplmcolorways');
+
 routes.post('/createyy', createnewyy);
 
 routes.post('/listofyy', listofyy);
@@ -63,5 +65,7 @@ routes.get('/getolrsizes/:fabyyid', getolrsizes);
 routes.post('/updatesizeitemdata', updatesizeitemdata);
 
 routes.post('/updateyyplmdata', updateyyplmdata);
+
+routes.get('/getplmcolorways/:fabyyid', getplmcolorways);
 
 module.exports = routes;

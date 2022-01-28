@@ -15,7 +15,7 @@ content-type: application/json
     //"password":"test@2021"
 //}
 
-//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?node_name=206706&active=true&bx_style_status=Confirmed
+//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?node_name=10225952&active=true&bx_style_status=Confirmed
 
 //GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?id=1663516
 
@@ -31,11 +31,11 @@ content-type: application/json
 
 //GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/C18291096
 
-GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_boms/C18291096
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_boms/C19127060
 
-GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/C18291096
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/C19130165
 
-GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/C18291125
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/C19130172
 
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/materials/C544491
 
@@ -68,3 +68,9 @@ GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/seasons/C18290
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/C18291096
 
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_item_revisions/C14077138
+
+//---------------------
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/C18290920
+
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/color_materials/C15025509

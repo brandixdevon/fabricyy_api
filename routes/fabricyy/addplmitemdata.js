@@ -29,19 +29,20 @@ module.exports = async (req, res) => {
 
   let prom = await Promise.all( 
         await var_itemset.map(async (x) => {
-            
+             
             return Promise.all(
-            await x.color_way_colors.map(async (y) => {
+            await x.color_way_colors.map(async (y, index) => {
                 
+              var inc_val = index + 1;
                 var nameofmatcolor = await getcolorname(y);
-
+                
                 new Promise(async function(){
                 
 
                     if(nameofmatcolor.node_name !== "")
-                    {
-                        var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, item_comment)
-                        VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '');`;
+                    { 
+                        var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, item_comment, gmt_color_order)
+                        VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '','${inc_val}');`;
                         
                         await pool.query(sqlqry);
                         
@@ -73,7 +74,7 @@ module.exports = async (req, res) => {
 
                     if(resp_1.status === 200)
                     {
-                        return ({node_name: resp_1.data.node_name});
+                        return ({node_name: resp_1.data.node_name, node_id:resp_1.data.id});
                     }
                     else
                     {

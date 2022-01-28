@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
   var result_del_olrcolor = await deleteRows(`DELETE FROM olr_colorset WHERE fabyy_id='${var_fabyyid}';`);
 
-  var result_ins_olrcolor = await insertRows(`INSERT INTO olr_colorset(fabyy_id, colorname, flex) SELECT fabyy_id,mastcolordesc as colorname,RIGHT(mastcolordesc, 4) as flex FROM olr_data WHERE fabyy_id='${var_fabyyid}' GROUP BY mastcolordesc,fabyy_id ORDER BY mastcolordesc;`)
+  var result_ins_olrcolor = await insertRows(`INSERT INTO olr_colorset(fabyy_id, colorname, flex, vpono) SELECT fabyy_id,mastcolordesc as colorname,RIGHT(mastcolordesc, 4) as flex,vpono FROM olr_data WHERE fabyy_id='${var_fabyyid}' GROUP BY mastcolordesc,vpono,fabyy_id ORDER BY mastcolordesc,vpono;`)
 
   var result_del_olrsize = await deleteRows(`DELETE FROM olr_sizeset WHERE fabyy_id='${var_fabyyid}';`);
 

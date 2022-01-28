@@ -28,9 +28,9 @@ module.exports = async (req, res) => {
   pool.query(sqlqry_delete);
 
   Promise.all( var_colorset.map(async (x) => {
-         
-    var sqlqry = `INSERT INTO plm_colorways(fabyy_id, plm_cw_id, cw_name, cw_desc, colorway, garmentway) VALUES ('${var_fabricyyid}','${x.id}','${x.name}','${x.desc}','${x.colorway}','${x.garmentway}');`;
-
+    
+    var sqlqry = `INSERT INTO plm_colorways(fabyy_id, plm_cw_id, cw_name, cw_desc, colorway, garmentway,cw_order) VALUES ('${var_fabricyyid}','${x.id}','${x.name}','${x.desc}','${x.colorway}','${x.garmentway}','${x.seq}');`;
+    
     pool.query(sqlqry);
     
     })).then(function()

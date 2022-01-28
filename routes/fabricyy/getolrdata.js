@@ -35,7 +35,7 @@ module.exports = async (req, res) => {
   COALESCE(s27_qty,0)+
   COALESCE(s28_qty,0)+
   COALESCE(s29_qty,0)+
-  COALESCE(s30_qty,0) as sub_total FROM olr_items WHERE fabyy_id='${var_fabyyid}' ORDER BY color;`;
+  COALESCE(s30_qty,0) as sub_total FROM olr_items WHERE fabyy_id='${var_fabyyid}' ORDER BY color,vpono;`;
 
   pool.query(sqlqry, (error, results) => {
     if (error) {

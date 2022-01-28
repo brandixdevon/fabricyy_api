@@ -31,6 +31,8 @@ module.exports = async (req, res) => {
       await var_olrdataset.map(async (items) => {
         
         var CUSTNAME = String(items.CUSTNAME).replace(/'/g, "''");
+        var VPONO = String(items.VPONO).replace(/'/g, "''");
+        var TECHPACKNO = String(items.TECHPACKNO).replace(/'/g, "''");
         var MASTSTYLEDESC = String(items.MASTSTYLEDESC).replace(/'/g, "''");
         var CUSTSTYLE = String(items.CUSTSTYLE).replace(/'/g, "''");
         var CUSTSTYLEDESC = String(items.CUSTSTYLEDESC).replace(/'/g, "''");
@@ -39,7 +41,7 @@ module.exports = async (req, res) => {
         var ORDERQTY = String(items.ORDERQTY).replace(/'/g, "''");
         var SEASON = String(items.SEASON).replace(/'/g, "''");
 
-        var sql_qry = `INSERT INTO olr_data(fabyy_id, custname, maststyledesc, custstyle, custstyledesc, mastcolordesc, custsizedesc, orderqty, season) VALUES('${var_fabyyid}', '${CUSTNAME}', '${MASTSTYLEDESC}', '${CUSTSTYLE}', '${CUSTSTYLEDESC}', '${MASTCOLORDESC}', '${CUSTSIZEDESC}', '${ORDERQTY}', '${SEASON}');`;
+        var sql_qry = `INSERT INTO olr_data(fabyy_id, custname, maststyledesc, custstyle, custstyledesc, mastcolordesc, custsizedesc, orderqty, season, vpono, techpackno) VALUES('${var_fabyyid}', '${CUSTNAME}', '${MASTSTYLEDESC}', '${CUSTSTYLE}', '${CUSTSTYLEDESC}', '${MASTCOLORDESC}', '${CUSTSIZEDESC}', '${ORDERQTY}', '${SEASON}', '${VPONO}', '${TECHPACKNO}');`;
 
         await pool.query(sql_qry);
 
