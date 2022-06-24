@@ -7,7 +7,7 @@ module.exports = async (req, res) => {
 
   var result_del_olritems = await deleteRows(`DELETE FROM olr_items WHERE fabyy_id='${var_fabyyid}';`);
 
-  var result_get_olrcolor = await selectFrom(`SELECT colorname,flex,vpono FROM olr_colorset WHERE fabyy_id='${var_fabyyid}' ORDER BY colorname,vpono;`);
+  var result_get_olrcolor = await selectFrom(`SELECT colorname,flex,vpono,division FROM olr_colorset WHERE fabyy_id='${var_fabyyid}' ORDER BY colorname,vpono,division;`);
 
   var result_get_olrsizes = await selectFrom(`SELECT sizename FROM olr_sizeset WHERE fabyy_id='${var_fabyyid}' ORDER BY sizename;`);
 
@@ -22,7 +22,7 @@ module.exports = async (req, res) => {
 
             await result_get_olrcolor.Data.map(async (x) => 
             {
-                var insertrow = await insertRows(`INSERT INTO olr_items(fabyy_id,color, flex,vpono, garmentway, prod_plant) VALUES ('${var_fabyyid}','${x.colorname}','${x.flex}','${x.vpono}','','');`);
+                var insertrow = await insertRows(`INSERT INTO olr_items(fabyy_id,color, flex, vpono, division, garmentway, prod_plant) VALUES ('${var_fabyyid}','${x.colorname}','${x.flex}','${x.vpono}','${x.division}','','');`);
             
                 if(insertrow.Type === "SUCCESS")
                 {

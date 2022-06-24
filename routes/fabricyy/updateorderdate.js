@@ -29,23 +29,23 @@ module.exports = async (req, res) => {
 
   if(var_daterev === "ORDER1")
   {
-    sqlqry = `UPDATE plm_items SET item_ordering='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_ordering='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
   }
   else if(var_daterev === "ORDER2")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev1='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev1='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
   }
   else if(var_daterev === "ORDER3")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev2='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev2='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
   }
   else if(var_daterev === "ORDER4")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev3='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev3='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
   }
   else if(var_daterev === "ORDER5")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev4='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev4='${var_orderdate}' WHERE fabyy_id='${var_fabricyyid}';`;
   }
   else
   {

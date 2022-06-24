@@ -34,6 +34,12 @@ const updateyyplmdata = require('./updateyyplmdata');
 
 const getplmcolorways = require('./getplmcolorways');
 
+const syncgraphics = require('./syncgraphics');
+
+const syncdyewash = require('./syncdyewash');
+
+const plmlineprocess = require('./plmlineprocess');
+
 routes.post('/createyy', createnewyy);
 
 routes.post('/listofyy', listofyy);
@@ -67,5 +73,11 @@ routes.post('/updatesizeitemdata', updatesizeitemdata);
 routes.post('/updateyyplmdata', updateyyplmdata);
 
 routes.get('/getplmcolorways/:fabyyid', getplmcolorways);
+
+routes.get('/syncgraphics/:fabyyid', syncgraphics);
+
+routes.get('/syncdyewash/:fabyyid', syncdyewash);
+
+routes.get('/plmlineprocess/:fabyyid', plmlineprocess);
 
 module.exports = routes;

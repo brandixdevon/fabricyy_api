@@ -1,10 +1,13 @@
 const axios = require('axios')
+const PLMURL = require('../plmurl')
 
 module.exports = (req, res) => {
+ 
+    var plmweburl = PLMURL.APIURL;
 
-    axios.post('https://brandix.centricsoftware.com/csi-requesthandler/api/v2/session', {
-        username:'DevonP',
-        password:'Dare2EnterIn@8'
+    axios.post(`${plmweburl}/csi-requesthandler/api/v2/session`, {
+        username:'AthulaV',
+        password:'aspirine@12345678'
         })
         .then(response => {
             res.status(200).json({Type: 'SUCCESS', Token : response.data.token})

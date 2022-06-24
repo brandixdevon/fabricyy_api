@@ -1,4 +1,5 @@
 const axios = require('axios')
+const PLMURL = require('../plmurl')
 
 module.exports = async (req, res) => {
 
@@ -7,7 +8,10 @@ module.exports = async (req, res) => {
 
     var colorways = [];
 
-    const resp = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/${revbomid}`, {
+    var enc_revbomid = encodeURIComponent(revbomid);
+    var plmweburl = PLMURL.APIURL;
+
+    const resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/apparel_bom_revisions/${enc_revbomid}`, {
         headers: {
             Cookie:`${usertoken}`
         }
@@ -37,11 +41,11 @@ module.exports = async (req, res) => {
             async function getColor(val_item)
             {
 
-                var letterNumber = /^[0-9a-zA-Z]+$/;
+                var letterNumber = encodeURIComponent(val_item);
 
-                    if(val_item.match(letterNumber))
+                    if(letterNumber !== "")
                     {
-                        let resp_color = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/colorways/${val_item}`, {
+                        let resp_color = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/colorways/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
                             }

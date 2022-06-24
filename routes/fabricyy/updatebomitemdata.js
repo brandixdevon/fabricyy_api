@@ -29,31 +29,31 @@ module.exports = async (req, res) => {
 
   if(var_field === "PRICE")
   {
-    sqlqry = `UPDATE plm_items SET item_price='${var_value}' WHERE item_id='${var_itemid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_price='${var_value}' WHERE item_id='${var_itemid}';`;
   }
   else if(var_field === "COMMENT")
   {
-    sqlqry = `UPDATE plm_items SET item_comment='${var_value}' WHERE item_id='${var_itemid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_comment='${var_value}' WHERE item_id='${var_itemid}';`;
   }
   else if(var_field === "ORDER1")
   {
-    sqlqry = `UPDATE plm_items SET item_ordering='${var_value}' WHERE item_id='${var_itemid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_ordering='${var_value}' WHERE item_id='${var_itemid}';`;
   }
   else if(var_field === "ORDER2")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev1='${var_value}' WHERE item_id='${var_itemid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev1='${var_value}' WHERE item_id='${var_itemid}';`;
   }
   else if(var_field === "ORDER3")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev2='${var_value}' WHERE item_id='${var_itemid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev2='${var_value}' WHERE item_id='${var_itemid}';`;
   }
   else if(var_field === "ORDER4")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev3='${var_value}' WHERE item_id='${var_itemid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev3='${var_value}' WHERE item_id='${var_itemid}';`;
   }
   else if(var_field === "ORDER5")
   {
-    sqlqry = `UPDATE plm_items SET item_order_rev4='${var_value}' WHERE item_id='${var_itemid}';`;
+    sqlqry = `UPDATE plm_items_vpo SET item_order_rev4='${var_value}' WHERE item_id='${var_itemid}';`;
   }
   else
   {

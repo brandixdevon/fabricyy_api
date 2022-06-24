@@ -38,15 +38,27 @@ module.exports = async (req, res) => {
                 
                 new Promise(async function(){
                 
+                    var letterNumber_check = /^[0-9a-zA-Z]+$/;
 
-                    if(nameofmatcolor.node_name !== "")
-                    { 
-                        var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, item_comment, gmt_color_order)
-                        VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '','${inc_val}');`;
+                    if(nameofmatcolor.colorcode.match(letterNumber_check))
+                    {
+                        if(nameofmatcolor.node_name !== "")
+                        { 
+                            var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, gmt_color_order)
+                            VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '${inc_val}');`;
+                            
+                            await pool.query(sqlqry);
+                            
+                        }
                         
-                        await pool.query(sqlqry);
-                        
-                    }
+                        /*if(x.material_type === "Embellishments and Graphics" || x.material_type === "Washes and Finishes")
+                        {
+                            var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, item_comment, gmt_color_order)
+                            VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '','${inc_val}');`;
+                            
+                            await pool.query(sqlqry);
+                        }*/
+                    } 
 
                 })
           
@@ -74,16 +86,16 @@ module.exports = async (req, res) => {
 
                     if(resp_1.status === 200)
                     {
-                        return ({node_name: resp_1.data.node_name, node_id:resp_1.data.id});
+                        return ({node_name: resp_1.data.node_name, node_id:resp_1.data.id, colorcode:val_color});
                     }
                     else
                     {
-                        return ({node_name: ''});
+                        return ({node_name: '', colorcode:val_color});
                     } 
             }
             else
             {
-                return ({node_name: ''});
+                return ({node_name: '', colorcode:val_color});
             }
         
     }

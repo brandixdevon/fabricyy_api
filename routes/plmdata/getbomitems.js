@@ -1,4 +1,5 @@
 const axios = require('axios')
+const PLMURL = require('../plmurl')
 
 module.exports = async (req, res) => {
 
@@ -8,16 +9,17 @@ module.exports = async (req, res) => {
     var items_fabric = [];
     var items_fabric_name = [];
 
-  
+    var plmweburl = PLMURL.APIURL;
+ 
             let proall = await Promise.all( 
                 
                 itemlistids.map(async (y) => {
 
-                    var letterNumber = /^[0-9a-zA-Z]+$/;
+                    var letterNumber = encodeURIComponent(y);
 
-                    if(y.match(letterNumber))
+                    if(letterNumber !== "")
                     {
-                        let resp = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/${y}`, {
+                        let resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/part_materials/${letterNumber}`, {
                         headers: {
                             Cookie:`${usertoken}`
                         }
@@ -30,9 +32,10 @@ module.exports = async (req, res) => {
                             var nameofitem = await getitemname(resp.data.actual);
                             var dataofsupplier = await getsupplierdata(resp.data.bom_line_quote);
                             var nameofmattype = await getmaterialtype(nameofitem.product_type);
-                            var minimumcuttablewidth = await getcuttablewidth(dataofsupplier.latest_revision)
+                            var minimumcuttablewidth = await getcuttablewidth(dataofsupplier.latest_revision);
                             
-                            if(nameofmattype.node_name === "Fabric")
+                            
+                            if(nameofmattype.node_name === "Fabric" || nameofmattype.node_name === "Embellishments and Graphics" || nameofmattype.node_name === "Washes and Finishes")
                             {
                                 items_fabric.push({id:y,
                                     actual:resp.data.actual,
@@ -65,11 +68,11 @@ module.exports = async (req, res) => {
             async function getitemname(val_item)
             {
 
-                var letterNumber = /^[0-9a-zA-Z]+$/;
+                var letterNumber = encodeURIComponent(val_item);
 
-                    if(val_item.match(letterNumber))
+                    if(letterNumber !== "")
                     {
-                        let resp_1 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/materials/${val_item}`, {
+                        let resp_1 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/materials/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
                             }
@@ -93,11 +96,11 @@ module.exports = async (req, res) => {
 
             async function getsupplierdata(val_supplier)
             {
-                var letterNumber = /^[0-9a-zA-Z]+$/;
+                var letterNumber = encodeURIComponent(val_supplier);
 
-                    if(val_supplier.match(letterNumber))
+                    if(letterNumber !== "")
                     {
-                        let resp_2 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_items/${val_supplier}`, {
+                        let resp_2 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/supplier_items/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
                             }
@@ -122,11 +125,11 @@ module.exports = async (req, res) => {
 
             async function getmaterialtype(val_materialtype)
             {
-                var letterNumber = /^[0-9a-zA-Z]+$/;
+                var letterNumber = encodeURIComponent(val_materialtype);
 
-                    if(val_materialtype.match(letterNumber))
+                    if(letterNumber !== "")
                     {
-                        let resp_3 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/material_types/${val_materialtype}`, {
+                        let resp_3 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/material_types/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
                             }
@@ -151,11 +154,11 @@ module.exports = async (req, res) => {
 
             async function getcuttablewidth(val_supp_item_rev)
             {
-                var letterNumber = /^[0-9a-zA-Z]+$/;
+                var letterNumber = encodeURIComponent(val_supp_item_rev);
 
-                    if(val_supp_item_rev.match(letterNumber) && val_supp_item_rev !== '')
+                    if(letterNumber !== '' && val_supp_item_rev !== '')
                     {
-                        let resp_3 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/supplier_item_revisions/${val_supp_item_rev}`, {
+                        let resp_3 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/supplier_item_revisions/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
                             }

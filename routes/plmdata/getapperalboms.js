@@ -1,13 +1,18 @@
 const axios = require('axios')
+const PLMURL = require('../plmurl')
 
 module.exports = async (req, res) => {
+
+    var plmweburl = PLMURL.APIURL;
 
     var styleseasonid =  req.body.seasonid;
     var usertoken =  req.body.token;
 
     var bomlist = [];
 
-    const resp = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles/${styleseasonid}/data_sheets/apparel_boms`, {
+    var enc_styleseasonid = encodeURIComponent(styleseasonid);
+
+    const resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/styles/${enc_styleseasonid}/data_sheets/apparel_boms`, {
         headers: {
             Cookie:`${usertoken}`
         }
@@ -31,11 +36,11 @@ module.exports = async (req, res) => {
         async function getisApproved(val_item)
             {
 
-                var letterNumber = /^[0-9a-zA-Z]+$/;
+                var letterNumber = encodeURIComponent(val_item);
 
-                    if(val_item.match(letterNumber))
+                    if(letterNumber !== '')
                     {
-                        let resp_1 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_bom_revisions/${val_item}`, {
+                        let resp_1 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/apparel_bom_revisions/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
                             }
