@@ -10,67 +10,57 @@ module.exports = async (req, res) => {
     var items_fabric_name = [];
 
     var plmweburl = PLMURL.APIURL;
- 
-            let proall = await Promise.all( 
-                
-                itemlistids.map(async (y) => {
 
-                    var letterNumber = encodeURIComponent(y);
+            for (var i = 0; i < itemlistids.length; i++)
+            {
+                var letterNumber = encodeURIComponent(itemlistids[i]);
 
-                    if(letterNumber !== "")
-                    {
-                        let resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/part_materials/${letterNumber}`, {
-                        headers: {
-                            Cookie:`${usertoken}`
-                        }
-                        });
-
-                        
-
-                        if(resp.status === 200){
-                            
-                            var nameofitem = await getitemname(resp.data.actual);
-                            var dataofsupplier = await getsupplierdata(resp.data.bom_line_quote);
-                            var nameofmattype = await getmaterialtype(nameofitem.product_type);
-                            var minimumcuttablewidth = await getcuttablewidth(dataofsupplier.latest_revision);
-                            
-                            
-                            if(nameofmattype.node_name === "Fabric" || nameofmattype.node_name === "Embellishments and Graphics" || nameofmattype.node_name === "Washes and Finishes")
-                            {
-                                items_fabric.push({id:y,
-                                    actual:resp.data.actual,
-                                    placement:resp.data.node_name,
-                                    color_way_type:resp.data.bx_colorway_type,
-                                    color_way_colors:resp.data.colorways_color,
-                                    garment_way:resp.data.bx_garment_way,
-                                    cuttable_width:minimumcuttablewidth.cw,
-                                    item_name:nameofitem.node_name,
-                                    description:nameofitem.description,
-                                    supplier:dataofsupplier.node_name,
-                                    material_type:nameofmattype.node_name,
-                                });
-                            }
-                        }
+                if(letterNumber !== "" && itemlistids[i] !== "centric%3A")
+                {
+                    let resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/part_materials/${letterNumber}`, {
+                    headers: {
+                        Cookie:`${usertoken}`
                     }
+                    });
 
                     
 
-                })
-
-            
-            ).then(function()
-            {
-                res.status(200).json({Type: 'SUCCESS', Dataset : items_fabric})
-                return;
-
-            })
+                    if(resp.status === 200){
+                        
+                        var nameofitem = await getitemname(resp.data.actual);
+                        var dataofsupplier = await getsupplierdata(resp.data.bom_line_quote);
+                        var nameofmattype = await getmaterialtype(nameofitem.product_type);
+                        var minimumcuttablewidth = await getcuttablewidth(dataofsupplier.latest_revision);
+                        
+                        
+                        if(nameofmattype.node_name === "Fabric" || nameofmattype.node_name === "Embellishments and Graphics" || nameofmattype.node_name === "Washes and Finishes")
+                        {
+                            items_fabric.push({id:itemlistids[i],
+                                actual:resp.data.actual,
+                                placement:resp.data.node_name,
+                                color_way_type:resp.data.bx_colorway_type,
+                                color_way_colors:resp.data.colorways_color,
+                                garment_way:resp.data.bx_garment_way,
+                                cuttable_width:minimumcuttablewidth.cw,
+                                item_name:nameofitem.node_name,
+                                description:nameofitem.description,
+                                supplier:dataofsupplier.node_name,
+                                material_type:nameofmattype.node_name,
+                            });
+                        }
+                    }
+                }
+            }
+ 
+            res.status(200).json({Type: 'SUCCESS', Dataset : items_fabric})
+            return; 
 
             async function getitemname(val_item)
             {
 
                 var letterNumber = encodeURIComponent(val_item);
-
-                    if(letterNumber !== "")
+                    
+                    if(letterNumber !== "" && val_item !== "centric%3A")
                     {
                         let resp_1 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/materials/${letterNumber}`, {
                             headers: {
@@ -98,8 +88,9 @@ module.exports = async (req, res) => {
             {
                 var letterNumber = encodeURIComponent(val_supplier);
 
-                    if(letterNumber !== "")
-                    {
+                    if(letterNumber !== "" && val_supplier !== "centric%3A")
+                    {   
+                        
                         let resp_2 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/supplier_items/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
@@ -127,8 +118,9 @@ module.exports = async (req, res) => {
             {
                 var letterNumber = encodeURIComponent(val_materialtype);
 
-                    if(letterNumber !== "")
+                    if(letterNumber !== "" && val_materialtype !== "centric%3A")
                     {
+                        
                         let resp_3 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/material_types/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`
@@ -156,8 +148,9 @@ module.exports = async (req, res) => {
             {
                 var letterNumber = encodeURIComponent(val_supp_item_rev);
 
-                    if(letterNumber !== '' && val_supp_item_rev !== '')
+                    if(letterNumber !== '' && val_supp_item_rev !== '' && val_supp_item_rev !== "centric%3A")
                     {
+                        
                         let resp_3 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/supplier_item_revisions/${letterNumber}`, {
                             headers: {
                                 Cookie:`${usertoken}`

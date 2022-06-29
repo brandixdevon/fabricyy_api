@@ -16,26 +16,22 @@ module.exports = async (req, res) => {
             Cookie:`${usertoken}`
         }
         });
-            Promise.all( 
 
-                resp.data.bom_product_colors.map(async (x, index) => {
-                    
-                    var val_seq= index + 1;
-                    let resp2 = await getColor(x);
-                    
-                    if(resp2.node_name !== '')
-                    {
-
-                    colorways.push({id:x,name:resp2.node_name,desc:resp2.description,garmentway:resp2.bx_garment_way,colorway:resp2.bx_colorway_name,seq:val_seq});
-                    
-                    }
-                })
+        for (var i = 0; i < resp.data.bom_product_colors.length; i++)
+        {
+            var val_seq= i+1;
+            let resp2 = await getColor(resp.data.bom_product_colors[i]);
             
-            ).then(function()
+            if(resp2.node_name !== '')
             {
-                res.status(200).json({Type: 'SUCCESS', Dataset : resp.data , colorways : colorways})
-                return;
-            })
+
+            colorways.push({id:resp.data.bom_product_colors[i],name:resp2.node_name,desc:resp2.description,garmentway:resp2.bx_garment_way,colorway:resp2.bx_colorway_name,seq:val_seq});
+            
+            }
+        }
+
+        res.status(200).json({Type: 'SUCCESS', Dataset : resp.data , colorways : colorways})
+        return;
 
 
             async function getColor(val_item)
@@ -43,7 +39,7 @@ module.exports = async (req, res) => {
 
                 var letterNumber = encodeURIComponent(val_item);
 
-                    if(letterNumber !== "")
+                    if(letterNumber !== "" && val_item !== "centric%3A")
                     {
                         let resp_color = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/colorways/${letterNumber}`, {
                             headers: {

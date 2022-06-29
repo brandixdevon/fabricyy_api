@@ -18,27 +18,25 @@ module.exports = async (req, res) => {
         }
         });
 
-        Promise.all(resp.data.map(async (x) => {
-
-            let resp2 = await getisApproved(x.latest_revision);
+        for (var i = 0; i < resp.data.length; i++)
+        {
+            let resp2 = await getisApproved(resp.data[i].latest_revision);
 
             if(resp2.state === "APPROVED")
             {
-                bomlist.push({id:x.id,latest_revision:x.latest_revision,node_name:x.node_name});
+                bomlist.push({id:resp.data[i].id,latest_revision:resp.data[i].latest_revision,node_name:resp.data[i].node_name});
             }
+        }
 
-        })).then(function(){
-
-            res.status(200).json({Type: 'SUCCESS', Dataset : bomlist});
-            return;
-        })
+        res.status(200).json({Type: 'SUCCESS', Dataset : bomlist});
+        return;
 
         async function getisApproved(val_item)
             {
 
                 var letterNumber = encodeURIComponent(val_item);
 
-                    if(letterNumber !== '')
+                    if(letterNumber !== '' && val_item !== "centric%3A")
                     {
                         let resp_1 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/apparel_bom_revisions/${letterNumber}`, {
                             headers: {

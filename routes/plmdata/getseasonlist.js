@@ -16,10 +16,10 @@ module.exports = async (req, res) => {
             Cookie:`${usertoken}`
         }
         });
- 
-            Promise.all(resp.data.map(async (x) => {
-                
-            var enc_seasonid = encodeURIComponent(x.parent_season);
+
+        for (var i = 0; i < resp.data.length; i++)
+        {
+            var enc_seasonid = encodeURIComponent(resp.data[i].parent_season);
 
             let resp2 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/seasons/${enc_seasonid}`, {
             headers: {
@@ -27,13 +27,11 @@ module.exports = async (req, res) => {
             }
             });
                 
-            seasonlist.push({idstyle:x.id,idseason:resp2.data.id,fs:resp2.data.node_name});
-
-            })).then(function()
-            {
-                res.status(200).json({Type: 'SUCCESS', Dataset : seasonlist})
-                return;
-            })
+            seasonlist.push({idstyle:resp.data[i].id,idseason:resp2.data.id,fs:resp2.data.node_name});
+        }
+ 
+        res.status(200).json({Type: 'SUCCESS', Dataset : seasonlist})
+        return;
         
 
 };
