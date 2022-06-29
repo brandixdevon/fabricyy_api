@@ -2,8 +2,8 @@ POST https://brandix.centricsoftware.com/csi-requesthandler/api/v2/session
 content-type: application/json
 
 {
-    "username":"AmaranathK",
-    "password":"amare@122"
+    "username":"AthulaV",
+    "password":"aspirine@12345678"
 }
 
 GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/part_materials/C19633425
@@ -19,7 +19,7 @@ GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/materials/C0%2
     //"password":"test@2021"
 //}
 
-//GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?node_name=10225952&active=true&bx_style_status=Confirmed
+GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?node_name=151279&active=true&bx_style_status=Confirmed&skip=0&limit=50
 
 //GET https://brandix.centricsoftware.com/csi-requesthandler/api/v2/styles?id=1663516
 

@@ -11,7 +11,7 @@ module.exports = async (req, res) => {
     var enc_styleid = encodeURIComponent(styleid);
     var plmweburl = PLMURL.APIURL;
 
-    const resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/styles?node_name=${enc_styleid}&active=true&bx_style_status=Confirmed`, {
+    const resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/styles?node_name=${enc_styleid}&active=true&bx_style_status=Confirmed&skip=0&limit=50`, {
         headers: {
             Cookie:`${usertoken}`
         }

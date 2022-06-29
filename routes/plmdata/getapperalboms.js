@@ -12,7 +12,7 @@ module.exports = async (req, res) => {
 
     var enc_styleseasonid = encodeURIComponent(styleseasonid);
 
-    const resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/styles/${enc_styleseasonid}/data_sheets/apparel_boms`, {
+    const resp = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/styles/${enc_styleseasonid}/data_sheets/apparel_boms?skip=0&limit=50`, {
         headers: {
             Cookie:`${usertoken}`
         }
