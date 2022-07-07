@@ -40,6 +40,8 @@ const syncdyewash = require('./syncdyewash');
 
 const plmlineprocess = require('./plmlineprocess');
 
+const getplmbomitems = require('./getplmbomitems');
+
 routes.post('/createyy', createnewyy);
 
 routes.post('/listofyy', listofyy);
@@ -79,5 +81,7 @@ routes.get('/syncgraphics/:fabyyid', syncgraphics);
 routes.get('/syncdyewash/:fabyyid', syncdyewash);
 
 routes.get('/plmlineprocess/:fabyyid', plmlineprocess);
+
+routes.get('/getplmbomitems/:fabyyid', getplmbomitems);
 
 module.exports = routes;

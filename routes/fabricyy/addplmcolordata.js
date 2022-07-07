@@ -1,5 +1,6 @@
 const { pool } = require('../dbconfig');
 const moment = require('moment');
+var fs = require('fs');
 
 module.exports = async (req, res) => {
 
@@ -24,22 +25,48 @@ module.exports = async (req, res) => {
   const var_fabricyyid = req.body.fabric_yyid;
   const var_colorset = req.body.colorset;
 
+  /*let ts = Date.now();
+    var logger = fs.createWriteStream(`log_coloradd_${ts}.txt`, {
+        flags: 'a' // 'a' means appending (old data will be preserved)
+      });
+  logger.write(`======== Start \r\n\n`);*/
+
   var sqlqry_delete = `DELETE FROM plm_colorways WHERE fabyy_id='${var_fabricyyid}';`;
-  pool.query(sqlqry_delete);
 
-  Promise.all( var_colorset.map(async (x) => {
+  var respose_delete = await query(sqlqry_delete);
+ 
+  //logger.write(`======== ${sqlqry_delete} \r\n\n`);
 
-    var colorname_new = await dyerootmap(x.name);
+  for (var i = 0; i < var_colorset.length; i++)
+  {
+    var colorname_new = await dyerootmap(var_colorset[i].name);
     
-    var sqlqry = `INSERT INTO plm_colorways(fabyy_id, plm_cw_id, cw_name, cw_desc, colorway, garmentway,cw_order) VALUES ('${var_fabricyyid}','${x.id}','${colorname_new}','${x.name}','${x.colorway}','${x.garmentway}','${x.seq}');`;
+    var sqlqry_insert = `INSERT INTO plm_colorways(fabyy_id, plm_cw_id, cw_name, cw_desc, colorway, garmentway,cw_order) VALUES ('${var_fabricyyid}','${var_colorset[i].id}','${colorname_new}','${var_colorset[i].name}','${var_colorset[i].colorway}','${var_colorset[i].garmentway}','${var_colorset[i].seq}');`;
     
-    pool.query(sqlqry);
+    //logger.write(`======== ${sqlqry} \r\n\n`);
+
+    var response_insert = await query(sqlqry_insert);
+
+    /* pool.query(sqlqry, (error, results) => {
+      if (error) {
+        
+        logger.write(`======== Insert Error \r\n\n`);
+      }
+      else {
+       
+        logger.write(`======== Insert Success \r\n\n`);
+      }
+  
+    })*/
+
     
-    })).then(function()
-    {
-        res.status(200).json({Type: 'SUCCESS', Dataset : "Successfully Added."})
-        return;
-    })
+    //var inser_data = await InserData(sqlqry);
+  }
+  
+  //logger.write(`======== End \r\n\n`);
+
+  res.status(200).json({Type: 'SUCCESS', Dataset : "Successfully Added."})
+  return;
 
     async function dyerootmap(value) {
       
@@ -103,11 +130,34 @@ module.exports = async (req, res) => {
       {
         return value.replace('_NPD','');
       }
+      else if(value.toUpperCase().includes('_PFD') === true)
+      {
+        return value.replace('_PFD','');
+      }
       else
       {
         return value.toUpperCase();
       }
 
+    }
+
+    //Postgres Query Run With Async Await
+    async function query(q) {
+      const client = await pool.connect()
+      let res
+      try {
+        await client.query('BEGIN')
+        try {
+          res = await client.query(q)
+          await client.query('COMMIT')
+        } catch (err) {
+          await client.query('ROLLBACK')
+          throw err
+        }
+      } finally {
+        client.release()
+      }
+      return res
     }
 
 };

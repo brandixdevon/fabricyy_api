@@ -1,5 +1,6 @@
 const axios = require('axios')
 const PLMURL = require('../plmurl')
+var fs = require('fs')
 
 module.exports = async (req, res) => {
 
@@ -7,6 +8,10 @@ module.exports = async (req, res) => {
     var usertoken =  req.body.token;
 
     var colorways = [];
+    let ts = Date.now();
+    var logger = fs.createWriteStream(`log_${ts}.txt`, {
+        flags: 'a' // 'a' means appending (old data will be preserved)
+      });
 
     var enc_revbomid = encodeURIComponent(revbomid);
     var plmweburl = PLMURL.APIURL;
@@ -16,6 +21,13 @@ module.exports = async (req, res) => {
             Cookie:`${usertoken}`
         }
         });
+
+        logger.write(`========Get Revise Bom - Start ${usertoken} \r\n\n`);
+        logger.write("\r\n config" + " ======== \n " + JSON.stringify(resp.config));
+        logger.write("\r\n status" + " ======== \n " + JSON.stringify(resp.status));
+        logger.write("\r\n statusText" + " ======== \n " + JSON.stringify(resp.statusText));
+        logger.write("\r\n data" + " ======== \n " + JSON.stringify(resp.data));
+        logger.write(`\n\n========Get Revise Bom - End \n\n`);
 
         for (var i = 0; i < resp.data.bom_product_colors.length; i++)
         {
@@ -46,6 +58,13 @@ module.exports = async (req, res) => {
                                 Cookie:`${usertoken}`
                             }
                             });
+
+                            logger.write(`========Get Color Details - Start \r\n\n`);
+                            logger.write("\r\n config" + " ======== \n " + JSON.stringify(resp_color.config));
+                            logger.write("\r\n status" + " ======== \n " + JSON.stringify(resp_color.status));
+                            logger.write("\r\n statusText" + " ======== \n " + JSON.stringify(resp_color.statusText));
+                            logger.write("\r\n data" + " ======== \n " + JSON.stringify(resp_color.data));
+                            logger.write(`\n\n========Get Color Details - End \n\n`);
 
                             if(resp_color.status === 200)
                             {
