@@ -1,6 +1,7 @@
 const { pool } = require('../dbconfig');
 const moment = require('moment');
 const axios = require('axios');
+const PLMURL = require('../plmurl');
 
 module.exports = async (req, res) => {
 
@@ -21,6 +22,8 @@ module.exports = async (req, res) => {
     return;
 
   }
+
+  var plmweburl = PLMURL.APIURL;
 
   const var_fabricyyid = req.body.fabric_yyid;
   const var_plmstyleid = req.body.plmstyleid;
@@ -57,7 +60,7 @@ module.exports = async (req, res) => {
 
             if(val_season.match(letterNumber))
             {
-                let resp_1 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/seasons/${val_season}`, {
+                let resp_1 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/seasons/${val_season}`, {
                     headers: {
                         Cookie:`${token}`
                     }
@@ -86,7 +89,7 @@ module.exports = async (req, res) => {
 
             if(val_bom.match(letterNumber))
             {
-                let resp_1 = await axios.get(`https://brandix.centricsoftware.com/csi-requesthandler/api/v2/apparel_boms/${val_bom}`, {
+                let resp_1 = await axios.get(`${plmweburl}/csi-requesthandler/api/v2/apparel_boms/${val_bom}`, {
                     headers: {
                         Cookie:`${token}`
                     }

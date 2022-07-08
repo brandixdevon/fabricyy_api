@@ -1,5 +1,5 @@
 const axios = require('axios')
-const PLMURL = require('../plmurl')
+const PLMURL = require('../plmurl');
 
 module.exports = async (req, res) => {
 

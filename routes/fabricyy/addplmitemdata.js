@@ -39,39 +39,31 @@ module.exports = async (req, res) => {
     var sqlqry_delete = `DELETE FROM plm_items WHERE fabyy_id='${var_fabricyyid}';`;
 
     var response_delete = await query(sqlqry_delete);
- 
-    for (var i = 0; i < var_itemset.length; i++)
+
+    for (var row_itemset in var_itemset) 
     {
-        for (var y = 0; y < var_itemset[i].color_way_colors.length; y++)
+      var obj_itemset = var_itemset[row_itemset];
+      var obj_itemset_colors = var_itemset[row_itemset].color_way_colors;
+      var inc_val = 0;
+
+      for (var row_itemset_colors in obj_itemset_colors)
+      {
+        inc_val = inc_val + 1;
+        var nameofmatcolor = await getcolorname(obj_itemset_colors[row_itemset_colors]);
+
+        var letterNumber_check = /^[0-9a-zA-Z]+$/;
+
+        if(nameofmatcolor.colorcode.match(letterNumber_check))
         {
-            var inc_val = y + 1;
-            var nameofmatcolor = await getcolorname(var_itemset[i].color_way_colors[y]);
-
-            var letterNumber_check = /^[0-9a-zA-Z]+$/;
-
-                if(nameofmatcolor.colorcode.match(letterNumber_check))
-                {
-                    if(nameofmatcolor.node_name !== "")
-                    { 
-                        var sqlqry_insert = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, gmt_color_order)
-                        VALUES ('${var_fabricyyid}', '${var_itemset[i].id}', '${var_itemset[i].actual}', '${var_itemset[i].item_name}', '${var_itemset[i].description}', '${var_itemset[i].color_way_type}', '${var_itemset[i].supplier}', '${var_itemset[i].material_type}', '${var_itemset[i].cuttable_width}', '${var_itemset[i].placement}', '${nameofmatcolor.node_name}', '${inc_val}');`;
-                        
-                        var response_insert = await query(sqlqry_insert);
-                    }
-                    else
-                    {
-                      //logger.write(`======== Color name Blank \r\n\n`);
-                    }
-                    
-                    /*if(x.material_type === "Embellishments and Graphics" || x.material_type === "Washes and Finishes")
-                    {
-                        var sqlqry = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, item_comment, gmt_color_order)
-                        VALUES ('${var_fabricyyid}', '${x.id}', '${x.actual}', '${x.item_name}', '${x.description}', '${x.color_way_type}', '${x.supplier}', '${x.material_type}', '${x.cuttable_width}', '${x.placement}', '${nameofmatcolor.node_name}', '','${inc_val}');`;
-                        
-                        await pool.query(sqlqry);
-                    }*/
-                } 
-        }
+            if(nameofmatcolor.node_name !== "")
+            { 
+                var sqlqry_insert = `INSERT INTO plm_items(fabyy_id, plm_item_id, plm_actual, plm_item_name, plm_item_desc, plm_colorway_type, plm_supplier, plm_fab_type, plm_cw, plm_placement, plm_color, gmt_color_order)
+                VALUES ('${var_fabricyyid}', '${obj_itemset.id}', '${obj_itemset.actual}', '${obj_itemset.item_name}', '${obj_itemset.description}', '${obj_itemset.color_way_type}', '${obj_itemset.supplier}', '${obj_itemset.material_type}', '${obj_itemset.cuttable_width}', '${obj_itemset.placement}', '${nameofmatcolor.node_name}', '${inc_val}');`;
+                
+                var response_insert = await query(sqlqry_insert);
+            }
+        } 
+      }
     }
 
     res.status(200).json({ Type: "SUCCESS", Msg: "Item List Successfully Added."})

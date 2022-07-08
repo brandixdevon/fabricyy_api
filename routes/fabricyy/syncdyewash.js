@@ -9,14 +9,14 @@ module.exports = async (req, res) => {
 
         var results_selectolr = await query(sqlqry_selectolr);
 
-        for (var i = 0; i < results_selectolr.rows.length; i++)
+        for (var row_selectolr in results_selectolr.rows)
         {
-            
+            var obj_selectolr = results_selectolr.rows[row_selectolr];
             var sqlqry_updateolr =`UPDATE olr_items SET wash_dye = subqry.washdye FROM 
             (SELECT string_agg(Distinct(plm_item_desc), ',') AS washdye FROM plm_items 
-            WHERE plm_fab_type='Washes and Finishes' AND fabyy_id='${results_selectolr.rows[i].fabyy_id}' AND gmt_color_order IN 
-            (SELECT cw_order FROM plm_colorways WHERE fabyy_id='${results_selectolr.rows[i].fabyy_id}' AND cw_name='${results_selectolr.rows[i].color}')) AS subqry 
-            WHERE fabyy_id='${results_selectolr.rows[i].fabyy_id}' AND color='${results_selectolr.rows[i].color}';`;
+            WHERE plm_fab_type='Washes and Finishes' AND fabyy_id='${obj_selectolr.fabyy_id}' AND gmt_color_order IN 
+            (SELECT cw_order FROM plm_colorways WHERE fabyy_id='${obj_selectolr.fabyy_id}' AND cw_name='${obj_selectolr.color}')) AS subqry 
+            WHERE fabyy_id='${obj_selectolr.fabyy_id}' AND color='${obj_selectolr.color}';`;
 
             var respose_update_data = await query(sqlqry_updateolr);
         }

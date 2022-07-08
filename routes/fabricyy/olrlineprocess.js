@@ -17,22 +17,25 @@ module.exports = async (req, res) => {
 
   var result_get_olrsizes = await query(qry_get_olrsizes);
 
-      for (var i = 0; i < result_get_olrcolor.rows.length; i++)
+      for (var row_olrcolor in result_get_olrcolor.rows)
       {
-        var insertrow = await query(`INSERT INTO olr_items(fabyy_id,color, flex, vpono, division, garmentway, prod_plant) VALUES ('${var_fabyyid}','${result_get_olrcolor.rows[i].colorname}','${result_get_olrcolor.rows[i].flex}','${result_get_olrcolor.rows[i].vpono}','${result_get_olrcolor.rows[i].division}','','');`);
-            
+        var obj_olrcolor = result_get_olrcolor.rows[row_olrcolor];
+        
+        var insertrow = await query(`INSERT INTO olr_items(fabyy_id,color, flex, vpono, division, garmentway, prod_plant) VALUES ('${var_fabyyid}','${obj_olrcolor.colorname}','${obj_olrcolor.flex}','${obj_olrcolor.vpono}','${obj_olrcolor.division}','','');`);
         var valinc = 0;
 
-        for (var y = 0; y < result_get_olrsizes.rows.length; y++)
+        for (var row_olrsizes in result_get_olrsizes.rows)
         {
-            valinc = valinc+1;
+          var obj_olrsizes = result_get_olrsizes.rows[row_olrsizes];
+          
+          valinc = valinc+1;
 
-            var qry_update = `UPDATE olr_items SET s${valinc}_name='${result_get_olrsizes.rows[y].sizename}', s${valinc}_qty=temptable.orderqty FROM (SELECT COALESCE(SUM(orderqty),0) as orderqty FROM olr_data WHERE fabyy_id='${var_fabyyid}' AND mastcolordesc='${result_get_olrcolor.rows[i].colorname}' AND custsizedesc='${result_get_olrsizes.rows[y].sizename}' AND vpono='${result_get_olrcolor.rows[i].vpono}') AS temptable WHERE fabyy_id='${var_fabyyid}' AND color='${result_get_olrcolor.rows[i].colorname}' AND vpono='${result_get_olrcolor.rows[i].vpono}';`
-        
-            var result_update_olritems = await query(qry_update);
+          var qry_update = `UPDATE olr_items SET s${valinc}_name='${obj_olrsizes.sizename}', s${valinc}_qty=temptable.orderqty FROM (SELECT COALESCE(SUM(orderqty),0) as orderqty FROM olr_data WHERE fabyy_id='${var_fabyyid}' AND mastcolordesc='${obj_olrcolor.colorname}' AND custsizedesc='${obj_olrsizes.sizename}' AND vpono='${obj_olrcolor.vpono}') AS temptable WHERE fabyy_id='${var_fabyyid}' AND color='${obj_olrcolor.colorname}' AND vpono='${obj_olrcolor.vpono}';`
+      
+          var result_update_olritems = await query(qry_update);
         }
       }
-
+      
       res.status(200).json({ Type: "SUCCESS", Msg: "Item List Successfully Added."})
       return;
       
